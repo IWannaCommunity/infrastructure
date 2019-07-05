@@ -1,0 +1,10 @@
+version: "2"
+services:
+  quassel:
+    image: linuxserver/quassel-core
+    container_name: quassel
+    env_file:
+        - services\quassel\quassel.env
+    ports:
+      - 4242:4242
+    restart: always

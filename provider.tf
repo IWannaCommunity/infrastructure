@@ -1,5 +1,5 @@
 variable "apikey" {}
 
 provider "digitalocean" {
-    token = "${var.apikey}"
+  token = "${var.apikey}"
 }

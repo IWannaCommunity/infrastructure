@@ -18,6 +18,7 @@ resource "kubernetes_deployment" "quassel" {
 
   spec {
     template {
+      metadata {}
       spec {
         container {
           image = "linuxserver/quassel-core"

@@ -17,7 +17,7 @@ provider "postgresql" {
   username         = "${digitalocean_database_cluster.pg_master.user}"
   password         = "${digitalocean_database_cluster.pg_master.password}"
   sslmode          = "require"
-  superuser        = true
+  superuser        = false
   connect_timeout  = 30
   expected_version = "11.0.0"
 }

@@ -35,20 +35,6 @@ resource "postgresql_role" "starz0r_quassel" {
   connection_limit = 1
 }
 
-# quassel connection
-provider "postgresql" {
-  alias            = "quassel"
-  host             = "${digitalocean_database_cluster.pg_master.host}"
-  port             = "${digitalocean_database_cluster.pg_master.port}"
-  database         = "quassel"
-  username         = "starz0r_quassel"
-  password         = "${var.pg_starz0r_quassel_pass}"
-  sslmode          = "require"
-  superuser        = true
-  connect_timeout  = 30
-  expected_version = "11.0.0"
-}
-
 # quassel database
 resource "postgresql_database" "starz0r_quassel" {
   provider         = postgresql.master

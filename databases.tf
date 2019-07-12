@@ -51,7 +51,7 @@ provider "postgresql" {
 
 # quassel database
 resource "postgresql_database" "starz0r_quassel" {
-  provider         = postgresql.quassel
+  provider         = postgresql.master
   name             = "starz0r_quassel"
   owner            = "starz0r_quassel"
   lc_collate       = "C"

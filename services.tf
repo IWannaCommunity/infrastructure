@@ -14,11 +14,25 @@ provider "kubernetes" {
 resource "kubernetes_deployment" "quassel" {
   metadata {
     name = "quassel"
+    labels = {
+      infrastructure = "starz0r"
+    }
   }
 
   spec {
+
+    selector {
+      match_labels = {
+        infrastructure = "starz0r"
+      }
+    }
+
     template {
-      metadata {}
+      metadata {
+        labels = {
+          infrastructure = "starz0r"
+        }
+      }
       spec {
         container {
           image = "linuxserver/quassel-core"
@@ -77,6 +91,9 @@ resource "kubernetes_service" "quassel" {
   }
 
   spec {
+    selector = {
+      infrastructure = "${kubernetes_deployment.quassel.metadata.0.labels.infrastructure}"
+    }
     port {
       name        = "4242"
       port        = 4242

@@ -34,15 +34,15 @@ resource "kubernetes_deployment" "quassel" {
           }
           env {
             name  = "DB_PGSQL_HOSTNAME"
-            value = "postgresql.master.host"
+            value = "${digitalocean_database_cluster.pg_master.host}"
           }
           env {
             name  = "DB_PGSQL_PASSWORD"
-            value = "postgresql.master.postgresql_role.starz0r_quassel.password"
+            value = "${postgresql_role.starz0r_quassel.password}"
           }
           env {
             name  = "DB_PGSQL_PORT"
-            value = "postgresql.master.port"
+            value = "${digitalocean_database_cluster.pg_master.port}"
           }
           env {
             name  = "PGID"

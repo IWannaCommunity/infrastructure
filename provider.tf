@@ -2,7 +2,7 @@
 variable "do_apikey" {}
 
 provider "digitalocean" {
-  token = "${var.apikey}"
+  token = "${var.do_apikey}"
 }
 
 # Cloudflare

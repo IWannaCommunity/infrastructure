@@ -82,5 +82,7 @@ resource "kubernetes_service" "quassel" {
       port        = 4242
       target_port = 4242
     }
+
+    type = "LoadBalancer"
   }
 }

@@ -42,5 +42,5 @@ resource "postgresql_database" "starz0r_quassel" {
   owner            = "starz0r_quassel"
   lc_collate       = "C"
   encoding         = "UTF8"
-  connection_limit = 1
+  connection_limit = 3
 }

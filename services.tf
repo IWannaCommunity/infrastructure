@@ -35,7 +35,7 @@ resource "kubernetes_deployment" "quassel" {
       }
       spec {
         container {
-          image = "linuxserver/quassel-core"
+          image = "linuxserver/quassel-core:amd64-0.13.1-ls20"
           name  = "quassel"
 
           env {

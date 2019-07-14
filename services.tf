@@ -51,6 +51,10 @@ resource "kubernetes_deployment" "quassel" {
             value = "${digitalocean_database_cluster.pg_master.host}"
           }
           env {
+            name  = "DB_PGSQL_USERNAME"
+            value = "${postgresql_role.starz0r_quassel.name}"
+          }
+          env {
             name  = "DB_PGSQL_PASSWORD"
             value = "${postgresql_role.starz0r_quassel.password}"
           }
@@ -67,7 +71,7 @@ resource "kubernetes_deployment" "quassel" {
             value = "1000"
           }
           env {
-            name  = "RUN_OTPS"
+            name  = "RUN_OPTS"
             value = "--config-from-environment"
           }
           env {

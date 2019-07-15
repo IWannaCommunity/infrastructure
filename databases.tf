@@ -32,7 +32,7 @@ resource "postgresql_role" "starz0r_quassel" {
   name             = "starz0r_quassel"
   password         = "${var.pg_starz0r_quassel_pass}"
   login            = true
-  connection_limit = 1
+  connection_limit = 5
 }
 
 # quassel database
@@ -42,5 +42,5 @@ resource "postgresql_database" "starz0r_quassel" {
   owner            = "starz0r_quassel"
   lc_collate       = "C"
   encoding         = "UTF8"
-  connection_limit = 3
+  connection_limit = 5
 }

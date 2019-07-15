@@ -1,7 +1,7 @@
 resource "digitalocean_kubernetes_cluster" "freeman" {
   name    = "us-services-freeman"
   region  = "sfo2"
-  version = "1.14.1-do.4"
+  version = "1.14.3-do.0"
   tags    = ["production"]
 
   node_pool {

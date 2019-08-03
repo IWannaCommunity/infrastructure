@@ -22,6 +22,29 @@ provider "postgresql" {
   expected_version = "11.0.0"
 }
 
+// all
+
+# keycloak user
+variable "pg_keycloak_pass" {}
+
+resource "postgresql_role" "keycloak" {
+  provider         = postgresql.master
+  name             = "keycloak"
+  password         = "${var.pg_keycloak_pass}"
+  login            = true
+  connection_limit = 10
+}
+
+# keycloak database
+resource "postgresql_database" "keycloak" {
+  provider         = postgresql.master
+  name             = "keycloak"
+  owner            = "keycloak"
+  lc_collate       = "C"
+  encoding         = "UTF8"
+  connection_limit = 10
+}
+
 // starz0r local
 
 # quassel user

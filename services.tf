@@ -88,6 +88,25 @@ resource "kubernetes_deployment" "keycloak" {
   }
 }
 
+resource "kubernetes_service" "keycloak" {
+  metadata {
+    name = "keycloak"
+  }
+
+  spec {
+    selector = {
+      infrastructure = "${kubernetes_deployment.keycloak.metadata.0.labels.infrastructure}"
+    }
+    port {
+      name        = "http"
+      port        = 8080
+      target_port = 8080
+    }
+
+    type = "LoadBalancer"
+  }
+}
+
 // starz0r's services
 
 # quassel

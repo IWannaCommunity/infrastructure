@@ -8,6 +8,86 @@ provider "kubernetes" {
   load_config_file = false
 }
 
+// services for all
+
+# keycloak
+variable "keycloak_superuser_pass" {}
+
+resource "kubernetes_deployment" "keycloak" {
+  metadata {
+    name = "keycloak"
+    labels = {
+      infrastructure = "all"
+    }
+  }
+
+  spec {
+
+    selector {
+      match_labels = {
+        infrastructure = "all"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          infrastructure = "all"
+        }
+      }
+      spec {
+        container {
+          image = "jboss/keycloak:6.0.1"
+          name  = "keycloak"
+
+          env {
+            name  = "DB_ADDR"
+            value = "${digitalocean_database_cluster.pg_master.host}"
+          }
+          env {
+            name  = "DB_VENDOR"
+            value = "postgres"
+          }
+          env {
+            name  = "DB_DATABASE"
+            value = "${postgresql_database.keycloak.name}"
+          }
+          env {
+            name  = "DB_USER"
+            value = "${postgresql_role.keycloak.name}"
+          }
+          env {
+            name  = "DB_PASSWORD"
+            value = "${postgresql_role.keycloak.password}"
+          }
+          env {
+            name  = "DB_PORT"
+            value = "${digitalocean_database_cluster.pg_master.port}"
+          }
+          env {
+            name  = "KEYCLOAK_USER"
+            value = "Starz0r"
+          }
+          env {
+            name  = "KEYCLOAK_PASSWORD"
+            value = "${var.keycloak_superuser_pass}"
+          }
+          env {
+            name  = "PROXY_ADDRESS_FORWARDING"
+            value = "true"
+          }
+
+          port {
+            container_port = 8080
+            protocol       = "TCP"
+          }
+
+        }
+      }
+    }
+  }
+}
+
 // starz0r's services
 
 # quassel

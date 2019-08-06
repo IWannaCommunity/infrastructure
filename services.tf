@@ -17,12 +17,13 @@ resource "kubernetes_deployment" "keycloak" {
   metadata {
     name = "keycloak"
     labels = {
+      name           = "keycloak"
       infrastructure = "all"
     }
   }
 
   spec {
-
+    replicas = 1
     selector {
       match_labels = {
         infrastructure = "all"
@@ -31,6 +32,7 @@ resource "kubernetes_deployment" "keycloak" {
 
     template {
       metadata {
+        name = "keycloak"
         labels = {
           infrastructure = "all"
         }
@@ -104,6 +106,46 @@ resource "kubernetes_service" "keycloak" {
     }
 
     type = "LoadBalancer"
+  }
+}
+
+resource "kubernetes_ingress" "keycloak" {
+  metadata {
+    name = "keycloak"
+
+    annotations = {
+      "kubernetes.io/tls-acme"            = "true"
+      "kubernetes.io/ingress.class"       = "nginx"
+      "certmanager.k8s.io/cluster-issuer" = "letsencrypt-prod"
+    }
+  }
+
+  spec {
+    rule {
+      host = "ident.iwannacommunity.com"
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "keycloak"
+            service_port = 8080
+          }
+        }
+        path {
+          path = "/auth"
+          backend {
+            service_name = "keycloak"
+            service_port = 8080
+          }
+        }
+      }
+    }
+
+    tls {
+      secret_name = "tls-keycloak-cert"
+
+      hosts = ["ident.iwannacommunity.com"]
+    }
   }
 }
 

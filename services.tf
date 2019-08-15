@@ -10,6 +10,31 @@ provider "kubernetes" {
 
 // services for all
 
+# freeman loadbalancer
+resource "kubernetes_service" "freeman-loadbalancer" {
+  metadata {
+    name = "freeman"
+  }
+
+  spec {
+    selector = {
+      servicegroup = "freeman"
+    }
+    port {
+      name        = "rawtcp"
+      port        = 4242
+      target_port = 4242
+    }
+    port {
+      name        = "http"
+      port        = 8080
+      target_port = 8080
+    }
+
+    type = "LoadBalancer"
+  }
+}
+
 # keycloak
 variable "keycloak_superuser_pass" {}
 
@@ -18,6 +43,8 @@ resource "kubernetes_deployment" "keycloak" {
     name = "keycloak"
     labels = {
       name           = "keycloak"
+      app            = "keycloak"
+      servicegroup   = "freeman"
       infrastructure = "all"
     }
   }
@@ -26,7 +53,8 @@ resource "kubernetes_deployment" "keycloak" {
     replicas = 1
     selector {
       match_labels = {
-        infrastructure = "all"
+        app          = "keycloak"
+        servicegroup = "freeman"
       }
     }
 
@@ -34,7 +62,10 @@ resource "kubernetes_deployment" "keycloak" {
       metadata {
         name = "keycloak"
         labels = {
+          name           = "keycloak"
+          app            = "keycloak"
           infrastructure = "all"
+          servicegroup   = "freeman"
         }
       }
       spec {
@@ -78,6 +109,10 @@ resource "kubernetes_deployment" "keycloak" {
             name  = "PROXY_ADDRESS_FORWARDING"
             value = "true"
           }
+          env {
+            name  = "KEYCLOAK_HOSTNAME"
+            value = "ident.iwannacommunity.com"
+          }
 
           port {
             container_port = 8080
@@ -90,65 +125,6 @@ resource "kubernetes_deployment" "keycloak" {
   }
 }
 
-resource "kubernetes_service" "keycloak" {
-  metadata {
-    name = "keycloak"
-  }
-
-  spec {
-    selector = {
-      infrastructure = "${kubernetes_deployment.keycloak.metadata.0.labels.infrastructure}"
-    }
-    port {
-      name        = "http"
-      port        = 8080
-      target_port = 8080
-    }
-
-    type = "LoadBalancer"
-  }
-}
-
-resource "kubernetes_ingress" "keycloak" {
-  metadata {
-    name = "keycloak"
-
-    annotations = {
-      "kubernetes.io/tls-acme"            = "true"
-      "kubernetes.io/ingress.class"       = "nginx"
-      "certmanager.k8s.io/cluster-issuer" = "letsencrypt-prod"
-    }
-  }
-
-  spec {
-    rule {
-      host = "ident.iwannacommunity.com"
-      http {
-        path {
-          path = "/"
-          backend {
-            service_name = "keycloak"
-            service_port = 8080
-          }
-        }
-        path {
-          path = "/auth"
-          backend {
-            service_name = "keycloak"
-            service_port = 8080
-          }
-        }
-      }
-    }
-
-    tls {
-      secret_name = "tls-keycloak-cert"
-
-      hosts = ["ident.iwannacommunity.com"]
-    }
-  }
-}
-
 // starz0r's services
 
 # quassel
@@ -157,6 +133,7 @@ resource "kubernetes_deployment" "quassel" {
     name = "quassel"
     labels = {
       infrastructure = "starz0r"
+      servicegroup   = "freeman"
     }
   }
 
@@ -165,6 +142,7 @@ resource "kubernetes_deployment" "quassel" {
     selector {
       match_labels = {
         infrastructure = "starz0r"
+        servicegroup   = "freeman"
       }
     }
 
@@ -172,6 +150,7 @@ resource "kubernetes_deployment" "quassel" {
       metadata {
         labels = {
           infrastructure = "starz0r"
+          servicegroup   = "freeman"
         }
       }
       spec {
@@ -227,24 +206,5 @@ resource "kubernetes_deployment" "quassel" {
         }
       }
     }
-  }
-}
-
-resource "kubernetes_service" "quassel" {
-  metadata {
-    name = "quassel"
-  }
-
-  spec {
-    selector = {
-      infrastructure = "${kubernetes_deployment.quassel.metadata.0.labels.infrastructure}"
-    }
-    port {
-      name        = "4242"
-      port        = 4242
-      target_port = 4242
-    }
-
-    type = "LoadBalancer"
   }
 }

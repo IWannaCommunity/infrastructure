@@ -73,6 +73,18 @@ resource "kubernetes_deployment" "keycloak" {
           image = "jboss/keycloak:6.0.1"
           name  = "keycloak"
 
+          resources {
+            requests {
+              cpu    = "200m"
+              memory = "512Mi"
+            }
+            limits {
+              cpu    = 1
+              memory = "1024Mi"
+            }
+
+          }
+
           env {
             name  = "DB_ADDR"
             value = "${digitalocean_database_cluster.pg_master.host}"

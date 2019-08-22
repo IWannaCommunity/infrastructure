@@ -154,8 +154,9 @@ resource "kubernetes_deployment" "quassel" {
         }
       }
       spec {
+        restart_policy = "Always"
         container {
-          image = "linuxserver/quassel-core:amd64-0.13.1-ls20"
+          image = "linuxserver/quassel-core:amd64-0.13.1-ls22"
           name  = "quassel"
 
           env {

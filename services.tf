@@ -21,14 +21,24 @@ resource "kubernetes_service" "freeman-loadbalancer" {
       servicegroup = "freeman"
     }
     port {
-      name        = "rawtcp"
-      port        = 4242
+      name        = "rawtcp-quassel"
+      port        = 1000
       target_port = 4242
     }
     port {
-      name        = "http"
-      port        = 8080
+      name        = "http-keycloak"
+      port        = 1001
       target_port = 8080
+    }
+    port {
+      name        = "ldap1-openldap"
+      port        = 1002
+      target_port = 389
+    }
+    port {
+      name        = "ldap2-openldap"
+      port        = 1003
+      target_port = 636
     }
 
     type = "LoadBalancer"

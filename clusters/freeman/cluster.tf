@@ -21,6 +21,16 @@ provider "kubernetes" {
   load_config_file = false
 }
 
+# Default Namespace
+module "default" {
+  source = "./default"
+
+  providers = {
+    kubernetes = "kubernetes"
+  }
+}
+
+# Starz0r Namespace
 variable "starz0r_openldap_admin_pass" {}
 variable "starz0r_openldap_config_pass" {}
 module "starz0r" {

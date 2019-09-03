@@ -1,8 +1,8 @@
-resource "kubernetes_namespace" "starz0r" {
-  metadata {
-    name = "starz0r"
-  }
-}
+#resource "kubernetes_namespace" "starz0r" {
+#  metadata {
+#    name = "starz0r"
+#  }
+#}
 
 # OpenLDAP
 variable "openldap_admin_pass" {}

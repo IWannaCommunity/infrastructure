@@ -4,8 +4,7 @@ variable "config_pass" {}
 
 resource "kubernetes_deployment" "openldap" {
   metadata {
-    name      = "openldap"
-    namespace = "starz0r"
+    name = "openldap"
     labels = {
       name           = "openldap"
       app            = "openldap"

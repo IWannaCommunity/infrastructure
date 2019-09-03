@@ -111,17 +111,10 @@ resource "kubernetes_deployment" "openldap" {
             container_port = 389
             protocol       = "TCP"
           }
-          port {
-            container_port = 636
-            protocol       = "TCP"
-          }
 
           liveness_probe {
             tcp_socket {
               port = 389
-            }
-            tcp_socket {
-              port = 636
             }
             initial_delay_seconds = 10
             period_seconds        = 30

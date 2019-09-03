@@ -7,7 +7,7 @@ resource "digitalocean_kubernetes_cluster" "freeman" {
   node_pool {
     name       = "freeman-worker-pool"
     size       = "s-1vcpu-2gb"
-    node_count = 2
+    node_count = 1
   }
 }
 

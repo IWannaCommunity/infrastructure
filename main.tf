@@ -1,3 +1,15 @@
+# Terraform
+terraform {
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "iwannacommunity"
+
+    workspaces {
+      name = "prod"
+    }
+  }
+}
+
 # Cloudflare
 variable "cf_apikey" {}
 variable "cf_orgid" {}

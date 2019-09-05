@@ -111,6 +111,19 @@ resource "kubernetes_deployment" "openldap" {
             protocol       = "TCP"
           }
 
+          volume_mount {
+            name       = "ldap-data"
+            mount_path = "/var/lib/ldap"
+          }
+          volume_mount {
+            name       = "ldap-config"
+            mount_path = "/etc/ldap/slapd.d"
+          }
+          volume_mount {
+            name       = "ldap-certs"
+            mount_path = "/container/service/slapd/assets/certs"
+          }
+
           liveness_probe {
             tcp_socket {
               port = 389
@@ -119,8 +132,27 @@ resource "kubernetes_deployment" "openldap" {
             period_seconds        = 30
             success_threshold     = 1
           }
-
         }
+
+        volume {
+          name = "ldap-data"
+          persistent_volume_claim {
+            claim_name = "${kubernetes_persistent_volume_claim.openldap-data.metadata.0.name}"
+          }
+        }
+        volume {
+          name = "ldap-config"
+          persistent_volume_claim {
+            claim_name = "${kubernetes_persistent_volume_claim.openldap-config.metadata.0.name}"
+          }
+        }
+        volume {
+          name = "ldap-certs"
+          persistent_volume_claim {
+            claim_name = "${kubernetes_persistent_volume_claim.openldap-certs.metadata.0.name}"
+          }
+        }
+
       }
     }
   }

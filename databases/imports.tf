@@ -1,0 +1,3 @@
+module "pg" {
+  source = "./pg"
+}

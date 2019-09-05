@@ -18,3 +18,11 @@ module "cluster_resources" {
     digitalocean = "digitalocean"
   }
 }
+
+module "database_resources" {
+  source = "./databases"
+
+  providers = {
+    digitalocean = "digitalocean"
+  }
+}

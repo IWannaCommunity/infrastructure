@@ -19,8 +19,11 @@ module "cluster_resources" {
   }
 }
 
+variable "db_pg_keycloak_pass" {}
 module "database_resources" {
   source = "./databases"
+
+  db_pg_keycloak_pass = "${var.db_pg_keycloak_pass}"
 
   providers = {
     digitalocean = "digitalocean"

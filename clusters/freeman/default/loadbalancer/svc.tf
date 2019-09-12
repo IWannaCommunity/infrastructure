@@ -10,6 +10,11 @@ resource "kubernetes_service" "loadbalancer" {
     }
     session_affinity = "ClientIP"
     port {
+      name        = "keycloak"
+      port        = 1000
+      target_port = 8080
+    }
+    port {
       name        = "ldap-openldap"
       port        = 1002
       target_port = 389

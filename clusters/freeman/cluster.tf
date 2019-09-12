@@ -22,11 +22,19 @@ provider "kubernetes" {
 }
 
 # Default Namespace
+variable "default_keycloak_superuser_pass" {}
+variable "default_keycloak_database_addr" {}
+variable "default_keycloak_database_pass" {}
 module "default" {
   source = "./default"
 
+  keycloak_superuser_pass = "${var.default_keycloak_superuser_pass}"
+  keycloak_database_addr  = "${var.default_keycloak_database_addr}"
+  keycloak_database_pass  = "${var.default_keycloak_database_pass}"
+
   providers = {
-    kubernetes = "kubernetes"
+    kubernetes   = "kubernetes"
+    digitalocean = "digitalocean"
   }
 }
 

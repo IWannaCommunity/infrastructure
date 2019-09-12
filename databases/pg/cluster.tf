@@ -20,6 +20,10 @@ provider "postgresql" {
   expected_version = "11.0.0"
 }
 
+output "addr" {
+  value = "${digitalocean_database_cluster.pg_master.host}"
+}
+
 variable "pg_keycloak_pass" {}
 module "keycloak" {
   source = "./keycloak"

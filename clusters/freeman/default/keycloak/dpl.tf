@@ -121,25 +121,6 @@ resource "kubernetes_deployment" "keycloak" {
             value = false
           }
 
-          liveness_probe {
-            http_get {
-              path = "/auth"
-              port = 80
-            }
-            initial_delay_seconds = 280
-            period_seconds        = 10
-            success_threshold     = 1
-          }
-          readiness_probe {
-            http_get {
-              path = "/auth/realms/master"
-              port = 80
-            }
-            initial_delay_seconds = 360
-            period_seconds        = 10
-            success_threshold     = 1
-          }
-
           port {
             container_port = 80
             protocol       = "TCP"

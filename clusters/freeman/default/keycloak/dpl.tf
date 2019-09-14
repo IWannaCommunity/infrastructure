@@ -34,7 +34,7 @@ resource "kubernetes_deployment" "keycloak" {
       }
       spec {
         container {
-          image = "jboss/keycloak:7.0.0"
+          image = "jboss/keycloak:6.0.1"
           name  = "keycloak"
 
           resources {
@@ -46,9 +46,16 @@ resource "kubernetes_deployment" "keycloak" {
               cpu    = 1
               memory = "1024Mi"
             }
-
           }
 
+          env {
+            name  = "KEYCLOAK_HTTP_PORT"
+            value = 80
+          }
+          env {
+            name  = "KEYCLOAK_HTTPS_PORT"
+            value = 443
+          }
           env {
             name  = "DB_ADDR"
             value = var.database_addr
@@ -91,22 +98,55 @@ resource "kubernetes_deployment" "keycloak" {
           }
           env {
             name  = "KEYCLOAK_LOGLEVEL"
-            value = "ERROR"
+            value = "ALL"
           }
-
-          port {
-            container_port = 8080
-            protocol       = "TCP"
+          env {
+            name  = "WILDFLY_LOGLEVEL"
+            value = "ALL"
+          }
+          env {
+            name  = "CACHE_OWNERS"
+            value = 3
+          }
+          env {
+            name  = "DB_QUERY_TIMEOUT"
+            value = 60
+          }
+          env {
+            name  = "DB_VALIDATE_ON_MATCH"
+            value = true
+          }
+          env {
+            name  = "DB_USE_CAST_FAIL"
+            value = false
           }
 
           liveness_probe {
             http_get {
               path = "/auth"
-              port = 8080
+              port = 80
             }
-            initial_delay_seconds = 3
-            period_seconds        = 3
+            initial_delay_seconds = 280
+            period_seconds        = 10
             success_threshold     = 1
+          }
+          readiness_probe {
+            http_get {
+              path = "/auth/realms/master"
+              port = 80
+            }
+            initial_delay_seconds = 360
+            period_seconds        = 10
+            success_threshold     = 1
+          }
+
+          port {
+            container_port = 80
+            protocol       = "TCP"
+          }
+          port {
+            container_port = 443
+            protocol       = "TCP"
           }
 
         }

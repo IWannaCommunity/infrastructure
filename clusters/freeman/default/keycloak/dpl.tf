@@ -122,11 +122,11 @@ resource "kubernetes_deployment" "keycloak" {
           }
 
           port {
-            container_port = 80
+            container_port = 8080
             protocol       = "TCP"
           }
           port {
-            container_port = 443
+            container_port = 8443
             protocol       = "TCP"
           }
 

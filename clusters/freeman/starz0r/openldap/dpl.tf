@@ -132,6 +132,14 @@ resource "kubernetes_deployment" "openldap" {
             period_seconds        = 30
             success_threshold     = 1
           }
+          readiness_probe {
+            tcp_socket {
+              port = 389
+            }
+            initial_delay_seconds = 15
+            period_seconds        = 30
+            success_threshold     = 1
+          }
         }
 
         volume {

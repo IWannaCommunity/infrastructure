@@ -1,4 +1,3 @@
-# freeman loadbalancer
 resource "kubernetes_service" "loadbalancer" {
   metadata {
     name = "freeman"
@@ -8,12 +7,21 @@ resource "kubernetes_service" "loadbalancer" {
     selector = {
       servicegroup = "freeman"
     }
-    session_affinity = "ClientIP"
+
+    # Default
     port {
-      name        = "keycloak"
+      name        = "http-keycloak"
       port        = 1000
       target_port = 8080
     }
+
+    port {
+      name        = "https-keycloak"
+      port        = 1001
+      target_port = 8443
+    }
+
+    # Starz0r
     port {
       name        = "ldap-openldap"
       port        = 1002

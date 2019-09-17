@@ -1,8 +1,4 @@
-# Load Balancer
-module "loadbalancer" {
-  source = "./loadbalancer"
-}
-
+# Keycloak
 variable "keycloak_superuser_pass" {}
 variable "keycloak_database_addr" {}
 variable "keycloak_database_pass" {}

@@ -41,11 +41,15 @@ module "default" {
 # Starz0r Namespace
 variable "starz0r_openldap_admin_pass" {}
 variable "starz0r_openldap_config_pass" {}
+variable "starz0r_openldap_cf_email" {}
+variable "starz0r_openldap_cf_apikey" {}
 module "starz0r" {
   source = "./starz0r"
 
   openldap_admin_pass  = "${var.starz0r_openldap_admin_pass}"
   openldap_config_pass = "${var.starz0r_openldap_config_pass}"
+  openldap_cf_email    = "${var.starz0r_openldap_cf_email}"
+  openldap_cf_apikey   = "${var.starz0r_openldap_cf_apikey}"
 
   providers = {
     kubernetes = "kubernetes"

@@ -36,6 +36,7 @@ resource "kubernetes_deployment" "openldap" {
         container {
           image = "osixia/openldap:release-1.3.0-dev-amd64"
           name  = "openldap"
+          args  = ["--loglevel", "debug", "--copy-service"]
 
           env {
             name  = "LDAP_ORGANISATION"
@@ -79,11 +80,37 @@ resource "kubernetes_deployment" "openldap" {
           }
           env {
             name  = "LDAP_TLS"
-            value = false
+            value = true
           }
           env {
             name  = "LDAP_TLS_ENFORCE"
-            value = false
+            value = true
+          }
+          env {
+            name  = "LDAP_TLS_VERIFY_CLIENT"
+            value = "try"
+            # setting value to "demand" brakes tls connections
+          }
+          env {
+            name  = "LDAP_TLS_CIPHER_SUITE"
+            value = "SECURE256:+SECURE128:-VERS-TLS-ALL:+VERS-TLS1.2:-RSA:-DHE-DSS:-CAMELLIA-128-CBC:-CAMELLIA-256-CBC"
+            # need to choose a stronger cipher suite
+          }
+          env {
+            name  = "LDAP_TLS_CRT_FILENAME"
+            value = "live/ldaps.starz0r.com/cert.pem"
+          }
+          env {
+            name  = "LDAP_TLS_KEY_FILENAME"
+            value = "live/ldaps.starz0r.com/privkey.pem"
+          }
+          env {
+            name  = "LDAP_TLS_CA_CRT_FILENAME"
+            value = "live/ldaps.starz0r.com/fullchain.pem"
+          }
+          env {
+            name  = "LDAP_TLS_DH_PARAM_FILENAME"
+            value = "live/ldaps.starz0r.com/dhparam.pem"
           }
           env {
             name  = "LDAP_REPLICATION"
@@ -98,16 +125,20 @@ resource "kubernetes_deployment" "openldap" {
             value = true
           }
           env {
-            name  = "LDAP_SSL_HELPER_PREFIX"
-            value = "ldap"
-          }
-          env {
             name  = "DISABLE_CHOWN"
             value = false
+          }
+          env {
+            name  = "HOSTNAME"
+            value = "ldaps.starz0r.com"
           }
 
           port {
             container_port = 389
+            protocol       = "TCP"
+          }
+          port {
+            container_port = 636
             protocol       = "TCP"
           }
 
@@ -128,7 +159,7 @@ resource "kubernetes_deployment" "openldap" {
             tcp_socket {
               port = 389
             }
-            initial_delay_seconds = 10
+            initial_delay_seconds = 120
             period_seconds        = 30
             success_threshold     = 1
           }
@@ -136,7 +167,7 @@ resource "kubernetes_deployment" "openldap" {
             tcp_socket {
               port = 389
             }
-            initial_delay_seconds = 15
+            initial_delay_seconds = 145
             period_seconds        = 30
             success_threshold     = 1
           }

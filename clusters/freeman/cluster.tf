@@ -1,7 +1,7 @@
 resource "digitalocean_kubernetes_cluster" "freeman" {
   name    = "us-services-freeman"
   region  = "sfo2"
-  version = "1.13.10-do.2"
+  version = "1.14.6-do.2"
   tags    = ["production"]
 
   node_pool {
@@ -43,6 +43,9 @@ variable "starz0r_openldap_admin_pass" {}
 variable "starz0r_openldap_config_pass" {}
 variable "starz0r_openldap_cf_email" {}
 variable "starz0r_openldap_cf_apikey" {}
+variable "starz0r_quassel_database_addr" {}
+variable "starz0r_quassel_database_pass" {}
+variable "starz0r_quassel_ldap_admin_pass" {}
 module "starz0r" {
   source = "./starz0r"
 
@@ -50,6 +53,10 @@ module "starz0r" {
   openldap_config_pass = "${var.starz0r_openldap_config_pass}"
   openldap_cf_email    = "${var.starz0r_openldap_cf_email}"
   openldap_cf_apikey   = "${var.starz0r_openldap_cf_apikey}"
+
+  quassel_database_addr   = "${var.starz0r_quassel_database_addr}"
+  quassel_database_pass   = "${var.starz0r_quassel_database_pass}"
+  quassel_ldap_admin_pass = "${var.starz0r_quassel_ldap_admin_pass}"
 
   providers = {
     kubernetes = "kubernetes"

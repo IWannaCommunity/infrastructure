@@ -34,3 +34,14 @@ module "keycloak" {
     postgresql = "postgresql.master"
   }
 }
+
+variable "pg_quassel_pass" {}
+module "quassel" {
+  source = "./quassel"
+
+  quassel_pass = "${var.pg_quassel_pass}"
+
+  providers = {
+    postgresql = "postgresql.master"
+  }
+}

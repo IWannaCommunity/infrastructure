@@ -17,6 +17,13 @@ resource "kubernetes_service" "openldap" {
       target_port = 389
     }
 
+    port {
+      name        = "ldaps-openldap"
+      port        = 30003
+      node_port   = 30003
+      target_port = 636
+    }
+
     type             = "NodePort"
     session_affinity = "ClientIP"
   }

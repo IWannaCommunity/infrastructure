@@ -36,7 +36,7 @@ resource "kubernetes_deployment" "openldap" {
         container {
           image = "osixia/openldap:release-1.3.0-dev-amd64"
           name  = "openldap"
-          args  = ["--loglevel", "debug", "--copy-service"]
+          args  = ["--copy-service", "--loglevel", "debug"]
 
           env {
             name  = "LDAP_ORGANISATION"
@@ -84,7 +84,7 @@ resource "kubernetes_deployment" "openldap" {
           }
           env {
             name  = "LDAP_TLS_ENFORCE"
-            value = true
+            value = false
           }
           env {
             name  = "LDAP_TLS_VERIFY_CLIENT"
@@ -131,6 +131,10 @@ resource "kubernetes_deployment" "openldap" {
           env {
             name  = "HOSTNAME"
             value = "ldaps.starz0r.com"
+          }
+          env {
+            name  = "LDAP_LOG_LEVEL"
+            value = 4
           }
 
           port {

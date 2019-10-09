@@ -1,3 +1,12 @@
+# Terraform Tiller
+module "tiller" {
+  source = "./tiller"
+
+  providers = {
+    helm = "helm"
+  }
+}
+
 # Keycloak
 variable "keycloak_superuser_pass" {}
 variable "keycloak_database_addr" {}

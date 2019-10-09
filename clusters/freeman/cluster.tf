@@ -21,6 +21,23 @@ provider "kubernetes" {
   load_config_file = false
 }
 
+provider "helm" {
+  kubernetes {
+    host = "${digitalocean_kubernetes_cluster.freeman.endpoint}"
+
+    client_certificate     = "${base64decode(digitalocean_kubernetes_cluster.freeman.kube_config.0.client_certificate)}"
+    client_key             = "${base64decode(digitalocean_kubernetes_cluster.freeman.kube_config.0.client_key)}"
+    cluster_ca_certificate = "${base64decode(digitalocean_kubernetes_cluster.freeman.kube_config.0.cluster_ca_certificate)}"
+
+    load_config_file = false
+  }
+
+  service_account                 = "terraform-tiller" #${module.default.module.tiller.kubernetes_service_account.tiller.metadata.0.name}
+  namespace                       = "kube-system"      #${module.default.module.tiller.kubernetes_service_account.tiller.metadata.0.namespace}
+  tiller_image                    = "gcr.io/kubernetes-helm/tiller:v2.14.3"
+  automount_service_account_token = true
+}
+
 # Default Namespace
 variable "default_keycloak_superuser_pass" {}
 variable "default_keycloak_database_addr" {}
@@ -35,6 +52,7 @@ module "default" {
   providers = {
     kubernetes   = "kubernetes"
     digitalocean = "digitalocean"
+    helm         = "helm"
   }
 }
 

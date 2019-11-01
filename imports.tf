@@ -32,11 +32,13 @@ module "cluster_resources" {
 
 variable "db_pg_keycloak_pass" {}
 variable "db_pg_quassel_pass" {}
+variable "db_pg_synapse_pass" {}
 module "database_resources" {
   source = "./databases"
 
   db_pg_keycloak_pass = "${var.db_pg_keycloak_pass}"
   db_pg_quassel_pass  = "${var.db_pg_quassel_pass}"
+  db_pg_synapse_pass  = "${var.db_pg_synapse_pass}"
 
   providers = {
     digitalocean = "digitalocean"

@@ -45,3 +45,14 @@ module "quassel" {
     postgresql = "postgresql.master"
   }
 }
+
+variable "pg_synapse_pass" {}
+module "synapse" {
+  source = "./synapse"
+
+  synapse_pass = "${var.pg_synapse_pass}"
+
+  providers = {
+    postgresql = "postgresql.master"
+  }
+}

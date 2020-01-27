@@ -34,7 +34,7 @@ resource "kubernetes_deployment" "openldap" {
       }
       spec {
         container {
-          image = "osixia/openldap:release-1.3.0-dev-amd64"
+          image = "osixia/openldap@sha256:117f75f3e867663bda5d1239ee168de249ee69744d2df722b369822e3230198a" // release-1.4.0-dev
           name  = "openldap"
           args  = ["--copy-service", "--loglevel", "debug"]
 

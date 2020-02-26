@@ -56,3 +56,14 @@ module "synapse" {
     postgresql = "postgresql.master"
   }
 }
+
+variable "pg_jabber_pass" {}
+module "ejabberd" {
+  source = "./ejabberd"
+
+  jabber_pass = "${var.pg_jabber_pass}"
+
+  providers = {
+    postgresql = "postgresql.master"
+  }
+}

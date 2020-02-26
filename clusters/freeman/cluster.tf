@@ -64,6 +64,9 @@ variable "starz0r_openldap_cf_apikey" {}
 variable "starz0r_quassel_database_addr" {}
 variable "starz0r_quassel_database_pass" {}
 variable "starz0r_quassel_ldap_admin_pass" {}
+variable "starz0r_ejabberd_database_addr" {}
+variable "starz0r_ejabberd_database_pass" {}
+variable "starz0r_ejabberd_ldap_pass" {}
 module "starz0r" {
   source = "./starz0r"
 
@@ -75,6 +78,10 @@ module "starz0r" {
   quassel_database_addr   = "${var.starz0r_quassel_database_addr}"
   quassel_database_pass   = "${var.starz0r_quassel_database_pass}"
   quassel_ldap_admin_pass = "${var.starz0r_quassel_ldap_admin_pass}"
+
+  ejabberd_database_addr = "${var.starz0r_ejabberd_database_addr}"
+  ejabberd_database_pass = "${var.starz0r_ejabberd_database_pass}"
+  ejabberd_ldap_pass     = "${var.starz0r_ejabberd_ldap_pass}"
 
   providers = {
     kubernetes = "kubernetes"

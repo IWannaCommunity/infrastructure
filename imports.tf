@@ -25,6 +25,10 @@ module "cluster_resources" {
   freeman_default_keycloak_database_addr  = "${local.PG_MASTER_ADDR}"
   freeman_default_keycloak_database_pass  = "${var.db_pg_keycloak_pass}"
 
+  freeman_starz0r_ejabberd_database_addr = "${local.PG_MASTER_ADDR}"
+  freeman_starz0r_ejabberd_database_pass = "${var.db_pg_jabber_pass}"
+  freeman_starz0r_ejabberd_ldap_pass     = "${var.k8s_freeman_starz0r_openldap_admin_pass}"
+
   providers = {
     digitalocean = "digitalocean"
   }
@@ -33,12 +37,14 @@ module "cluster_resources" {
 variable "db_pg_keycloak_pass" {}
 variable "db_pg_quassel_pass" {}
 variable "db_pg_synapse_pass" {}
+variable "db_pg_jabber_pass" {}
 module "database_resources" {
   source = "./databases"
 
   db_pg_keycloak_pass = "${var.db_pg_keycloak_pass}"
   db_pg_quassel_pass  = "${var.db_pg_quassel_pass}"
   db_pg_synapse_pass  = "${var.db_pg_synapse_pass}"
+  db_pg_jabber_pass   = "${var.db_pg_jabber_pass}"
 
   providers = {
     digitalocean = "digitalocean"

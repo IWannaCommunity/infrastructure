@@ -16,9 +16,11 @@ variable "cf_orgid" {}
 variable "cf_email" {}
 
 provider "cloudflare" {
-  token  = "${var.cf_apikey}"
-  org_id = "${var.cf_orgid}"
-  email  = "${var.cf_email}"
+  version = "~> 2.3.0"
+
+  api_key    = "${var.cf_apikey}"
+  account_id = "${var.cf_orgid}"
+  email      = "${var.cf_email}"
 }
 
 # DigitalOcean

@@ -1,7 +1,7 @@
 resource "digitalocean_kubernetes_cluster" "freeman" {
   name    = "us-services-freeman"
   region  = "sfo2"
-  version = "1.14.6-do.2"
+  version = "1.14.10-do.0"
   tags    = ["production"]
 
   node_pool {
@@ -12,7 +12,8 @@ resource "digitalocean_kubernetes_cluster" "freeman" {
 }
 
 provider "kubernetes" {
-  host = "${digitalocean_kubernetes_cluster.freeman.endpoint}"
+  version = "~> 1.9.0"
+  host    = "${digitalocean_kubernetes_cluster.freeman.endpoint}"
 
   client_certificate     = "${base64decode(digitalocean_kubernetes_cluster.freeman.kube_config.0.client_certificate)}"
   client_key             = "${base64decode(digitalocean_kubernetes_cluster.freeman.kube_config.0.client_key)}"

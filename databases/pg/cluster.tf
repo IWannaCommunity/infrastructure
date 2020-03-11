@@ -8,6 +8,7 @@ resource "digitalocean_database_cluster" "pg_master" {
 }
 
 provider "postgresql" {
+  version = "~> 1.1.0"
   alias            = "master"
   host             = "${digitalocean_database_cluster.pg_master.host}"
   port             = "${digitalocean_database_cluster.pg_master.port}"

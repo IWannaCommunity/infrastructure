@@ -29,7 +29,8 @@ variable "do_spacesid" {}
 variable "do_spacessecret" {}
 
 provider "digitalocean" {
-  token = "${var.do_apikey}"
+  version = "~> 1.14.0"
+  token   = "${var.do_apikey}"
 
   spaces_access_id  = "${var.do_spacesid}"
   spaces_secret_key = "${var.do_spacessecret}"

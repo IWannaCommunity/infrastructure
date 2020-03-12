@@ -12,7 +12,7 @@ resource "digitalocean_kubernetes_cluster" "freeman" {
 }
 
 provider "kubernetes" {
-  version = "~> 1.9.0"
+  version = "~> 1.11.1"
   host    = "${digitalocean_kubernetes_cluster.freeman.endpoint}"
 
   client_certificate     = "${base64decode(digitalocean_kubernetes_cluster.freeman.kube_config.0.client_certificate)}"

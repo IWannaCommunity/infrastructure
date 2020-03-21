@@ -1,6 +1,7 @@
 resource "kubernetes_persistent_volume_claim" "ejabberd-certs" {
   metadata {
-    name = "freeman-starz0r-ejabberd-certs"
+    name      = "ejabberd-certs"
+    namespace = "starz0r"
   }
   spec {
     storage_class_name = "do-block-storage"

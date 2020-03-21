@@ -1,8 +1,8 @@
-#resource "kubernetes_namespace" "starz0r" {
-#  metadata {
-#    name = "starz0r"
-#  }
-#}
+resource "kubernetes_namespace" "starz0r" {
+  metadata {
+    name = "starz0r"
+  }
+}
 
 # OpenLDAP
 variable "openldap_admin_pass" {}
@@ -18,6 +18,7 @@ module "openldap" {
   cf_apikey   = "${var.openldap_cf_apikey}"
 }
 
+# Quassel
 variable "quassel_database_addr" {}
 variable "quassel_database_pass" {}
 variable "quassel_ldap_admin_pass" {}

@@ -1,7 +1,8 @@
 # ejabberd
 resource "kubernetes_deployment" "ejabberd" {
   metadata {
-    name = "ejabberd"
+    name      = "ejabberd"
+    namespace = "starz0r"
     labels = {
       name           = "ejabberd"
       app            = "ejabberd"

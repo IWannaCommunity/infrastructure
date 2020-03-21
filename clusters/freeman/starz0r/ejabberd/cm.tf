@@ -16,7 +16,8 @@ data "template_file" "ejabberd" {
 
 resource "kubernetes_config_map" "ejabberd" {
   metadata {
-    name = "ejabberd"
+    name      = "ejabberd"
+    namespace = "starz0r"
   }
 
   data = {
@@ -35,7 +36,8 @@ data "template_file" "certbot_cloudflare" {
 
 resource "kubernetes_config_map" "certbot" {
   metadata {
-    name = "certbot-ejabberd"
+    name      = "certbot-ejabberd"
+    namespace = "starz0r"
   }
 
   data = {

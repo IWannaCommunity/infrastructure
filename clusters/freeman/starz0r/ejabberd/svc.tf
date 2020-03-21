@@ -1,6 +1,7 @@
 resource "kubernetes_service" "ejabberd" {
   metadata {
-    name = "ejabberd"
+    name      = "ejabberd"
+    namespace = "starz0r"
   }
 
   spec {

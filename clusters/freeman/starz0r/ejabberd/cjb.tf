@@ -1,6 +1,7 @@
 resource "kubernetes_cron_job" "certbot" {
   metadata {
-    name = "certbot-starz0r-ejabberd"
+    name      = "certbot-ejabberd"
+    namespace = "starz0r"
   }
   spec {
     concurrency_policy            = "Replace"

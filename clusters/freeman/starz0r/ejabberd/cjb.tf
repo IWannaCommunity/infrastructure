@@ -19,7 +19,7 @@ resource "kubernetes_cron_job" "certbot" {
           spec {
             container {
               name  = "certbot"
-              image = "certbot/dns-cloudflare:v0.38.0"
+              image = "certbot/dns-cloudflare@sha256:a61e2e57e0882ea7c10779b892579e85768fc99a24f97da4081135ba6b1c1dbf" // v1.3.0
               args  = ["certonly", "-vvv", "--non-interactive", "-m", "starz0rdesign@gmail.com", "--agree-tos", "--dns-cloudflare", "--dns-cloudflare-credentials", "/etc/letsencrypt/cloudflare.ini", "--dns-cloudflare-propagation-seconds", "60", "-d", "starz0r.com"]
               volume_mount {
                 name       = "config"

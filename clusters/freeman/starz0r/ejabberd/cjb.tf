@@ -36,7 +36,7 @@ resource "kubernetes_cron_job" "certbot" {
             volume {
               name = "config"
               config_map {
-                name = "certbot"
+                name = "certbot-ejabberd"
               }
             }
             volume {

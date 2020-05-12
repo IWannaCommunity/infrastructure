@@ -4,7 +4,8 @@ variable "ldap_admin_pass" {}
 
 resource "kubernetes_deployment" "quassel" {
   metadata {
-    name = "quassel"
+    name      = "quassel"
+    namespace = "starz0r"
     labels = {
       infrastructure = "starz0r"
       servicegroup   = "freeman"
@@ -33,7 +34,7 @@ resource "kubernetes_deployment" "quassel" {
       spec {
         restart_policy = "Always"
         container {
-          image = "linuxserver/quassel-core@sha256:09e44c5ecc5a90af3f65e026bf3db49050cd150af20e8ae51845850537300112" // 0.13.1-ls45
+          image = "linuxserver/quassel-core@sha256:354b1056b32a1b1fad0be9543cc65ec0711f509a71519f560a81df263094f958" // 0.13.1-ls54
           name  = "quassel"
 
           env {

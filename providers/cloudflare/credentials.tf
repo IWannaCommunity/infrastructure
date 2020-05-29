@@ -1,6 +1,6 @@
 # Cloudflare
 provider "cloudflare" {
-  token  = "${var.apikey}"
-  org_id = "${var.orgid}"
-  email  = "${var.email}"
+  api_token  = "${var.apikey}"
+  account_id = "${var.orgid}"
+  email      = "${var.email}"
 }

@@ -3,7 +3,7 @@ hosts:
 
 fqdn: jabber.starz0r.com
 
-loglevel: 3
+loglevel: 5
 
 default_db: sql
 sm_db_type: sql

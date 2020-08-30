@@ -90,3 +90,15 @@ module "starz0r" {
     kubernetes = "kubernetes"
   }
 }
+
+# I Wanna Community namespace
+variable "iwc_automod_discord_token" {}
+module "iwc" {
+  source = "./iwc"
+
+  automod_discord_token = "${var.iwc_automod_discord_token}"
+
+  providers = {
+    kubernetes = "kubernetes"
+  }
+}

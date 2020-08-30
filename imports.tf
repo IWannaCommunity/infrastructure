@@ -9,6 +9,7 @@ module "networking_resources_cloudflare" {
 variable "k8s_freeman_starz0r_openldap_admin_pass" {}
 variable "k8s_freeman_starz0r_openldap_config_pass" {}
 variable "k8s_freeman_default_keycloak_superuser_pass" {}
+variable "k8s_freeman_iwc_automod_discord_token" {}
 module "cluster_resources" {
   source = "./clusters"
 
@@ -28,6 +29,8 @@ module "cluster_resources" {
   freeman_starz0r_ejabberd_database_addr = "${local.PG_MASTER_ADDR}"
   freeman_starz0r_ejabberd_database_pass = "${var.db_pg_jabber_pass}"
   freeman_starz0r_ejabberd_ldap_pass     = "${var.k8s_freeman_starz0r_openldap_admin_pass}"
+
+  freeman_iwc_automod_discord_token = "${var.k8s_freeman_iwc_automod_discord_token}"
 
   providers = {
     digitalocean = "digitalocean"
